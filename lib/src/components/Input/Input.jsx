@@ -11,14 +11,6 @@ export default class Input extends Base {
         errorContainerClassName: PropTypes.string
     };
 
-    static contextTypes = {
-        register: PropTypes.func.isRequired,
-        unregister: PropTypes.func.isRequired,
-        validateState: PropTypes.func.isRequired,
-        components: PropTypes.objectOf(PropTypes.any),
-        errors: PropTypes.objectOf(PropTypes.array)
-    };
-
     constructor(props, context) {
         super(props, context);
 
@@ -29,6 +21,7 @@ export default class Input extends Base {
         this.state = {
             value: isCheckbox ? checkboxValue : props.value,
             isChanged: isCheckbox ? props.checked : !!props.value,
+            isFocued: false,
             isCheckbox,
             isUsed: isCheckbox,
             isChecked: isCheckbox ? !!props.checked : true
@@ -46,10 +39,12 @@ export default class Input extends Base {
             containerClassName,
             errorContainerClassName,
             className,
+            validateOnChange,
             ...rest } = this.props;
         // TODO: Refactor conditions
         const isInvalid = this.state.isUsed
             && this.state.isChanged
+            && !this.state.isFocused
             && !!this.context.errors[this.props.name];
         const value = this.state.isCheckbox ? this.props.value : this.state.value;
         const error = isInvalid && this.context.errors[this.props.name][0];
@@ -74,6 +69,7 @@ export default class Input extends Base {
                   })}
                   checked={this.state.isChecked}
                   onChange={this.onChange}
+                  onFocus={this.onFocus}
                   onBlur={this.onBlur} value={value}
                 />
                 {hint}

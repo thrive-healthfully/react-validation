@@ -5,6 +5,8 @@ class Base extends Component {
     static propTypes = {
         value: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
+        validateOnChange: PropTypes.bool,
+        onFocus: PropTypes.func,
         onChange: PropTypes.func,
         onBlur: PropTypes.func
     };
@@ -13,6 +15,7 @@ class Base extends Component {
         register: PropTypes.func.isRequired,
         unregister: PropTypes.func.isRequired,
         validateState: PropTypes.func.isRequired,
+        hideError: PropTypes.func.isRequired,
         components: PropTypes.objectOf(PropTypes.any),
         errors: PropTypes.objectOf(PropTypes.array)
     };
@@ -42,10 +45,9 @@ class Base extends Component {
 
         this.setState({
             value,
-            isChanged: true,
             isChecked
         }, () => {
-            this.context.validateState(this.props.name);
+            (this.props.validateOnChange && this.context.validateState(this.props.name));
 
             (this.props.onChange || noop)(event);
         });
@@ -55,13 +57,30 @@ class Base extends Component {
         event.persist();
 
         this.setState({
-            isUsed: true
+            isUsed: true,
+            isFocused: false
         }, () => {
             this.context.validateState(this.props.name);
 
             (this.props.onBlur || noop)(event);
         });
     };
+
+    onFocus = (event) => {
+        event.persist();
+
+        this.setState({
+            isFocused: true,
+            isChanged: true
+        }, () => {
+            this.context.hideError(event.target.name);
+            (this.props.onFocus || noop)(event);
+        });
+    }
+}
+
+Base.defaultProps = {
+  validateOnChange: false
 }
 
 export default Base;

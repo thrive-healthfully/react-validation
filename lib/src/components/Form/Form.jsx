@@ -14,6 +14,7 @@ export default class Form extends Component {
         register: PropTypes.func.isRequired,
         unregister: PropTypes.func.isRequired,
         validateState: PropTypes.func.isRequired,
+        hideError: PropTypes.func.isRequired,
         components: PropTypes.objectOf(PropTypes.oneOfType([
             PropTypes.instanceOf(Button),
             PropTypes.instanceOf(Input),
@@ -38,6 +39,7 @@ export default class Form extends Component {
             register: this.register,
             unregister: this.unregister,
             validateState: this.validateState,
+            hideError: this.hideError,
             components: this.components,
             errors: this.state.errors
         };
