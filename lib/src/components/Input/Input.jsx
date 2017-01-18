@@ -70,7 +70,7 @@ export default class Input extends Base {
                   checked={this.state.isChecked}
                   onChange={this.onChange}
                   onFocus={this.onFocus}
-                  onBlur={this.onBlur} value={value}
+                  onBlur={this.onBlur} value={this.state.value}
                 />
                 {hint}
             </div>
