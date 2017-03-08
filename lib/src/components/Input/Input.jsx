@@ -15,7 +15,7 @@ export default class Input extends Base {
         super(props, context);
 
         const isCheckbox = !!(props.type === 'checkbox' || props.type === 'radio');
-        const checkboxValue = props.checked ? props.value : '';
+        const checkboxValue = props.value;
 
         // TODO: Refactor conditions
         this.state = {
@@ -70,7 +70,7 @@ export default class Input extends Base {
                   checked={this.state.isChecked}
                   onChange={this.onChange}
                   onFocus={this.onFocus}
-                  onBlur={this.onBlur} value={this.state.value}
+                  onBlur={this.onBlur} value={value}
                 />
                 {hint}
             </div>

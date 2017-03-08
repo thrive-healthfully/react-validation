@@ -15,6 +15,7 @@ class Base extends Component {
         register: PropTypes.func.isRequired,
         unregister: PropTypes.func.isRequired,
         validateState: PropTypes.func.isRequired,
+        errorsForComponent: PropTypes.func.isRequired,
         hideError: PropTypes.func.isRequired,
         components: PropTypes.objectOf(PropTypes.any),
         errors: PropTypes.objectOf(PropTypes.array)

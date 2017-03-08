@@ -14,6 +14,7 @@ export default class Form extends Component {
         register: PropTypes.func.isRequired,
         unregister: PropTypes.func.isRequired,
         validateState: PropTypes.func.isRequired,
+        errorsForComponent: PropTypes.func.isRequired,
         hideError: PropTypes.func.isRequired,
         components: PropTypes.objectOf(PropTypes.oneOfType([
             PropTypes.instanceOf(Button),
@@ -39,6 +40,7 @@ export default class Form extends Component {
             register: this.register,
             unregister: this.unregister,
             validateState: this.validateState,
+            errorsForComponent: this.errorsForComponent,
             hideError: this.hideError,
             components: this.components,
             errors: this.state.errors
@@ -48,6 +50,20 @@ export default class Form extends Component {
     componentDidMount() {
         this.validateState();
     }
+
+    errorsForComponent = (name) => {
+      const component = this.components[name];
+      const validations = component.props.validations;
+      const length = validations.length;
+
+      return validations.map((validation) => {
+        if (rules[validation].rule(component.state.value, this.components)) {
+          return validation;
+        } else {
+          return null;
+        }
+      }).filter((error) => { return error != null; });
+    };
 
     getErrors = () => Object.keys(this.components).reduce((prev, name) => {
         const component = this.components[name];

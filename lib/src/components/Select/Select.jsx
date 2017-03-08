@@ -47,6 +47,7 @@ export default class Select extends Base {
             containerClassName,
             errorContainerClassName,
             className,
+            validateOnChange,
             ...rest } = this.props;
         // TODO: Refactor conditions
         const isInvalid = this.state.isUsed

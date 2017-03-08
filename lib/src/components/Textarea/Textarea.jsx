@@ -40,6 +40,7 @@ export default class Textarea extends Base {
             errorClassName,
             containerClassName,
             errorContainerClassName,
+            validateOnChange,
             className,
             ...rest } = this.props;
         // TODO: Refactor conditions
